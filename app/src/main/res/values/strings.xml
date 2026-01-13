@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name" translatable="false">Mood Tracker</string>
+    <string name="hello_user" translatable="true">Hello User!</string>
+    <string name="home" translatable="true">Home</string>
+    <string name="Focus" translatable="true">Focus</string>
+    <string name="Stats" translatable="true">Stats</string>
+    <string name="question_about_state" translatable="true">How are you felling today?</string>
+    <string name="state_1" translatable="true">Terrible</string>
+    <string name="state_2" translatable="true">Bad</string>
+    <string name="state_3" translatable="true">Fine</string>
+    <string name="state_4" translatable="true">Good</string>
+    <string name="state_5" translatable="true">Very good</string>
+</resources>
