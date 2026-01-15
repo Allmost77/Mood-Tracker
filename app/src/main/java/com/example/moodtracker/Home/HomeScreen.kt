@@ -85,8 +85,9 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ) {
 
                     Slider(
                         value = sliderPosition,
-                        onValueChange = { sliderPosition = it },
-                        onValueChangeFinished = {(viewModel::onMoodChanged) (sliderPosition.toInt())},
+                        onValueChange = { newValue ->
+                            sliderPosition = newValue
+                            (viewModel::onMoodChanged) (newValue.toInt())},
                         valueRange = 0f..4f,
                         steps = 3,
                         colors = SliderDefaults.colors(
