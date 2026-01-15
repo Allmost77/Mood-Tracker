@@ -47,6 +47,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
 import androidx.compose.material3.Button
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalContext
@@ -148,15 +149,25 @@ fun GradientTrack(
             .fillMaxWidth()
             .height(20.dp)
             .clip(RoundedCornerShape(50))
+            .background(Color.LightGray.copy(alpha = 0.2f))
     ) {
+        val width = size.width
+        val f = fraction.coerceIn(0f, 1f)
+
+
+        val startX = width * (0.5f - f)
+        val endX = width * (1.5f - f)
+
         val brush = Brush.horizontalGradient(
             colors = listOf(
-                Color(0xFFFF5252 ),
-                Color(0xFF2979FF)
+                Color(0xFF2979FF),
+                Color( 0xFFFF5252)
             ),
-            endX = size.width * fraction
+            startX = startX,
+            endX = endX
         )
 
         drawRect(brush = brush)
     }
 }
+
