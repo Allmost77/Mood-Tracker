@@ -1,6 +1,9 @@
 package com.example.moodtracker.Home
 
+import android.content.Context
 import android.view.RoundedCorner
+import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.interaction.PressInteraction
@@ -40,6 +43,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.moodtracker.R
 import com.example.moodtracker.ui.theme.MoodTrackerTheme
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.material3.Button
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel() ) {
@@ -50,8 +60,8 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ) {
         targetValue = sliderPosition / 4f,
         animationSpec = tween(400)
     )
-   
-
+    var hasChanged by remember { mutableStateOf(false) }
+    var context = LocalContext.current
 
 
 
@@ -87,14 +97,16 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ) {
                         value = sliderPosition,
                         onValueChange = { newValue ->
                             sliderPosition = newValue
-                            (viewModel::onMoodChanged) (newValue.toInt())},
+                            (viewModel::onMoodChanged) (newValue.toInt())
+                            hasChanged = true    },
                         valueRange = 0f..4f,
                         steps = 3,
                         colors = SliderDefaults.colors(
                             activeTickColor = Color.Transparent,
                             inactiveTrackColor = Color.Transparent,
                             thumbColor = Color.Gray,
-                            activeTrackColor = Color.Transparent
+                            activeTrackColor = Color.Transparent,
+
 
 
                         )
@@ -102,7 +114,23 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ) {
                 }
 
 
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+
+                AnimatedVisibility(
+                    visible = hasChanged,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    Button(
+                        onClick =  {
+                            viewModel.onMoodChanged(sliderPosition.toInt())
+                            hasChanged = false
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(context.getText(R.string.Button_apply_state).toString())
+                    }
+                }
 
             }
 
