@@ -28,7 +28,6 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -48,7 +47,12 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextField
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalContext
 
@@ -63,7 +67,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ) {
     )
     var hasChanged by remember { mutableStateOf(false) }
     var context = LocalContext.current
-
+    var quick_text by remember { mutableStateOf("")}
 
 
     Column(Modifier.fillMaxSize()) {
@@ -83,8 +87,8 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ) {
                 Spacer(modifier = Modifier.height(50.dp))
                 Text(
                    text = stringResource(id = viewModel.moodTextRes()),
-                   fontSize = 20.sp
-
+                   fontSize = 20.sp,
+                   modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Box(
                     Modifier.fillMaxWidth()
@@ -135,6 +139,43 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ) {
 
             }
 
+        }
+        Spacer(modifier = Modifier.height(40.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp)
+        ) {
+            Column(
+                Modifier.fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(text = stringResource(R.string.Name_Quick_Notes),
+                    fontSize = 30.sp,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Spacer(Modifier.height(10.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    OutlinedTextField(
+                        value = quick_text,
+                        onValueChange = {newValue -> quick_text = newValue},
+                        modifier =  Modifier.weight(1f),
+                        placeholder = { Text(stringResource(R.string.PlaceHolder_Quick_Notes))},
+                        maxLines = 3,
+                        shape = RoundedCornerShape(14.dp)
+
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Button(
+                        onClick =  {},
+                        shape = RoundedCornerShape(14.dp)
+                    ) { Text("+") }
+                }
+
+            }
         }
     }
 }

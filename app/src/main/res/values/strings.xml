@@ -11,4 +11,6 @@
     <string name="state_4" translatable="true">Good</string>
     <string name="state_5" translatable="true">Very good</string>
     <string name="Button_apply_state" translatable="true">✅Apply</string>
+    <string name="Name_Quick_Notes" translatable="true">Quick Notes</string>
+    <string name="PlaceHolder_Quick_Notes" translatable="true">One quick thought</string>
 </resources>
