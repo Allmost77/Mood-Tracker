@@ -47,11 +47,16 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.magnifier
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextField
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalContext
@@ -67,8 +72,8 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ) {
     )
     var hasChanged by remember { mutableStateOf(false) }
     var context = LocalContext.current
-    var quick_text by remember { mutableStateOf("")}
-
+    var quick_text by rememberSaveable { mutableStateOf("")}
+    var notes by rememberSaveable { mutableStateOf(listOf<String>())}
 
     Column(Modifier.fillMaxSize()) {
         Text(
@@ -170,9 +175,30 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ) {
                     )
                     Spacer(Modifier.width(8.dp))
                     Button(
-                        onClick =  {},
+                        onClick =  {
+                            if (quick_text.isNotBlank()) {
+                                notes = notes + quick_text
+                                quick_text = ""
+                            }
+                        },
                         shape = RoundedCornerShape(14.dp)
                     ) { Text("+") }
+                }
+
+                LazyColumn(
+                    Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(notes) {note ->
+                        Text(
+                            text =  note,
+                            modifier = Modifier.fillMaxWidth()
+                                .background(
+                                    Color.Gray.copy(alpha = 0.1f),
+                                    RoundedCornerShape(12.dp)
+                                ).padding(12.dp)
+                        )
+                    }
                 }
 
             }
